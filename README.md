@@ -2,10 +2,9 @@
 Track vehicles and determine their approximate average velocity
 
 ## Overview
-* Create an image dataset that a model can be trained on
-* Convert the images from the training dataset to 128-D vector
-* Train multiple models and select the model with the best score and predictability
-* Test classifier by using a piCamera module or a test dataset
+* Create a tracking class that monitors objects in frames
+* Create a script that saves all the vital information about the vehicle
+* Monitor vehicles and calculate their approximate average velocity, determining if they are speeding
 ___
 
 ## Project Components
