@@ -22,7 +22,7 @@ class CentroidTracker:
 
 	#box is a list of coords (x1,y1,x2,y2)
 	def track(self, boxes):
-		#Step 1: Compute centroids (x,y) from bounding boxes
+		#list containing bounding box centroids
 		centroids = []
 
 		#if there are no objects being tracked, then all the incoming bounding boxes are new objects
