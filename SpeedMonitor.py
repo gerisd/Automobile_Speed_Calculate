@@ -1,28 +1,3 @@
-#https://www.pyimagesearch.com/2018/10/22/object-tracking-with-dlib/
-
-#Camera --> 11.8 inches (30 cm) object measured from 9.5 inches (24 cm) away
-#Camera --> 12 m object measured from 5 m away 
-#Camera Specs: 8MP, 1080p --> 3280(H) x 2464(V) Active Pixel Count
-
-'''
-ALGORITHM
-
-1. Speed formula: speed = distance / time
-2. We have a known distance constant from a tape on the roadside. The camera will face the road, being perpendicular to traveling vehicles
-3. Meters per pixel are calculated by dividing the distance constant by the frame width in pixels 
-4. Distance in pixels is calculated as the difference between the centroids as they pass by the columns for the zone. 
-Distance in meters is the calculated for the particular zone
-5. Four timestamps (t) will be collected as the car moves through the FOV past four waypoint columns of the video frame
-6. Three pairs of the four timestamps will be used to determine three delta-t values
-7. We will calculate three speed values (delta-t/distance) in the case of the speed betweenn columns A and B for each of the pairs
-of timestamps and estimated distances
-8. The three speed estimates will be averaged for an overall speed
-9. The speed is converted and made available in the TrackableObject class as speedMPH or speedKMPH. 
-While will display speeds in miles per hour. Minor changes to the script are required if you prefer to have the KMPH logged and displayed - 
-be sure to read the remarks as you follow along in the chapter 
-
-'''
-
 from CentroidTracker import CentroidTracker
 from Save import save
 from imutils.video import VideoStream
