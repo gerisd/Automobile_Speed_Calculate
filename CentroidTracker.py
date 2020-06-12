@@ -1,15 +1,3 @@
-'''
-HOBBYIST BUNDLE CHAPTER 19
-
-				CENTROID TRACKING ALGORITHM
-
-STEP 1:	ACCEPT BOUNDING BOX COORDINATES AND COMPUTE CENTROIDS
-STEP 2: COMPUTE EUCLIDEAN DISTANCE BETWEEN NEW BOUNDING BOXES AND EXISTING OBJECTS
-STEP 3: UPDATE (x, y) COORDINATES OF EXISTING OBJECTS
-STEP 4: REGISTER NEW OBJECTS
-STEP 5: DEREGISTER OLD/LOST OBJECTS THAT HAVE MOVED OUT OF FRAME
-
-'''
 from collections import OrderedDict
 from scipy.spatial import distance 
 import numpy as np
@@ -48,6 +36,7 @@ class CentroidTracker:
 
 				#add centroids as objects 
 				add_object((cent_X, cent_Y))
+				
 		#if objects is not empty, then we need to compare the centroids of the new boxes and existing objects
 		#the closest centroid is the same object 		
 		else:
@@ -61,50 +50,16 @@ class CentroidTracker:
 				#temporarily store new boxes into list for comparision
 				centroids.append((cent_X, cent_Y))
 
-			'''
-			EXPLANATION:
-			
-			cdist does euclidean distance for every set of (x,y) coords in both matrices
-			cdist will return a matrix containing all distances, 
-			where the # of rows is number existing objects, and # of rows is the number of new bounding boxes
-			
-			EX: so if we have a 2 existing objects (therefore (2,2), each containing (x,y)), and 3 new centroids (3,2)
-			then euc_dict would return a (2,3) matrix. 
-			The entire first row is every new centroid compared to the first existing object, where each column is one of the new centroids
-			and the second row is the existing object compared to every new centroid, each compared euclidean distance is a column, hence 3 columns 
-
-
-			for each existing object, get need to get the smallest euc_dist for each row 
-
-			Using the smallest euclidean distance, there will be 3 conditions:
-			
-			1 - if it is within a certain range, we can acknowledge that distance between the two centroids is small enough to consider them
-			the same object
-			Therefore we need to update the (x, y) coords of the existing object to the new centroid
-
-			2 - if the euclidean distance is too large then we acknowledge that this is a new object
-
-			3 - if an existing object has no updated coords, we can ackowledge that the object has disappeared
-			'''
-
 			#compare centroids and the closest two points are considered the same object
 			euc_dist = distance.cdist(self.objects.values(), centroids)
 
 			rows = euc_dist.min(axis=1).argsort()
 			cols = euc_dist.argmin(axis=1)[rows]
 
-			#This is better, it assigns the new centroids to its closest existing object's centroid, instead of vice versa
-			#This avoids failing to assign a tracked centroid when two tracked centroids have the same input centroid as their closest pairing.
-			#cols = euc_dist.min(axis=0).argsort()
-			#rows = euc_dist.argmin(axis=0)[cols]
-
 			#keep track of rows and cols we already checked
 			checkedRows = []
 			checkedCols = []
 
-			#Convert the IDs and coords into lists because once I have the minimum distance between 2 centroids 
-			#I can use the given row and col to access the correct row in the ID's (unable to use the row in a dict)
-			#likewise, I can use the col to access the correct new centroid 
 			objectIDs = self.objects.keys()
 			objectCentroids = self.objects.values()
 
@@ -127,9 +82,6 @@ class CentroidTracker:
 				#Using the ID to access the pre-existing centroid coordinates and update them with the new coordinates
 				objectCentroids[objID] = centroids[col]
 				self.disappeared[objID] = 0
-
-				#print(f"row: {row} and col: {col}")
-				#print(f"old centroid is {objectCentroids[objID]}, new centroid is: {centroids[col]}") 
 
 				#mark off the row and col so we don't check them again
 				checkedRows.append(row)
@@ -160,8 +112,10 @@ class CentroidTracker:
 
 	#coords in a set containing x and y for pos (x,y)
 	def add_object(self, coords):
+		
 		#if there is a preused ID number, then use it instead of a completely new one
 		if len(avail_ID) > 0:
+			
 			#Find index of the ID with the lowest value and store the centroid with that ID
 			idx = avail_ID.index(min(avail_ID))
 			lowest_ID = avail_ID[idx]
