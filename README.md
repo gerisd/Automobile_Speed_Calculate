@@ -1,4 +1,4 @@
-# Automobile_Speed_Calculate
+# Automobile Speed Calculator
 Track vehicles and determine their approximate average velocity
 
 ## Overview
