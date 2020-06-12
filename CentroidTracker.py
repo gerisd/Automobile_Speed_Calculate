@@ -119,7 +119,6 @@ class CentroidTracker:
 			#Find index of the ID with the lowest value and store the centroid with that ID
 			idx = avail_ID.index(min(avail_ID))
 			lowest_ID = avail_ID[idx]
-			#lowest_ID = min(avail_ID)
 			objects[lowest_ID] = (coords[0], coords[1])
 
 			#remove the lowest ID from the list 
